@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -22,11 +23,13 @@ namespace Api.Service.Services
         private static HttpClient HttpClient => _httpClient ?? (_httpClient = new HttpClient());
         private IRepository<ProductEntity> _productrepository;
         private readonly IMapper _mapper;
+        private IError _error;
 
-        public ProductService(IRepository<ProductEntity> productrepository, IMapper mapper)
+        public ProductService(IRepository<ProductEntity> productrepository, IMapper mapper, IError error)
         {
             _productrepository = productrepository;
             _mapper = mapper;
+            _error = error;
         }
         public async Task<bool> Delete(Guid id)
         {
@@ -62,6 +65,40 @@ namespace Api.Service.Services
         }
         public async Task<RequestExternoDto> RequestExterno(PagamentoDto pagamento)
         {
+            if (pagamento.Cartao.cvv.Length != 3 || pagamento.Cartao.numero.Length != 16)
+            {
+                _error.ErrorMessages.Add(new ErrorMessage
+                {
+                    StatusCode = HttpStatusCode.PreconditionFailed,
+                    Message = "Os valores informados não são válidos"
+                });
+            }
+            var bandeiracartao = new List<string> { "VISA", "Mastercard", "AMEX", "Diners Club", "Discover", "Hipercard", "Inter" };
+            if (!bandeiracartao.Contains(pagamento.Cartao.bandeira))
+            {
+                _error.ErrorMessages.Add(new ErrorMessage
+                {
+                    StatusCode = HttpStatusCode.PreconditionFailed,
+                    Message = "Não aceitamos essa bandeira"
+                });
+            }
+            string[] date = pagamento.Cartao.data_expiracao.Split('/');
+            if (int.Parse(date[1]) < DateTime.Now.Year)
+            {
+                _error.ErrorMessages.Add(new ErrorMessage
+                {
+                    StatusCode = HttpStatusCode.PreconditionFailed,
+                    Message = "Data do Cartão Expirada"
+                });
+            }
+            if (int.Parse(date[0]) < DateTime.Now.Month && int.Parse(date[1]) == DateTime.Now.Month)
+            {
+                _error.ErrorMessages.Add(new ErrorMessage
+                {
+                    StatusCode = HttpStatusCode.PreconditionFailed,
+                    Message = "Data do Cartão Expirada"
+                });
+            }
             var getproduct = await Get(pagamento.produto_id);
             var prepararpagamento = pagamento.qtde_comprada * getproduct.valor_unitario;
             var pagamentosend = new PagamentoExternoSend

@@ -12,7 +12,7 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
 {
     public class Retorno_Create
     {
-        private PagamentosController _controller;
+        private PagamentoController _controller;
 
         [Fact(DisplayName = "É Possível realizar o created")]
         public async Task E_Possivel_Realizar_Cotroller_Created()
@@ -25,26 +25,17 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
                 numero = Faker.Name.FullName(),
                 cvv = Faker.Name.FullName(),
                 bandeira = Faker.Name.FullName(),
-                data_expiracao = DateTime.UtcNow,
-
+                data_expiracao = Faker.Name.FullName(),
             };
 
 
-            serviceMock.Setup(m => m.Post(It.IsAny<PagamentoDtoCreate>())).ReturnsAsync(
-                new PagamentoDtoCreateResult
-                {
-                    valor = Valor,
-                    estado = "Aprovado",
-                }
-            );
-
-            _controller = new PagamentosController(serviceMock.Object);
+            _controller = new PagamentoController(serviceMock.Object);
             Mock<IUrlHelper> url = new Mock<IUrlHelper>();
             url.Setup(x => x.Link(It.IsAny<string>(), It.IsAny<object>())).Returns("http://localhost:5000");
             _controller.Url = url.Object;
             var PagamentoDtoCreate = new PagamentoDtoCreate
             {
-                valor = Valor,
+                Valor = Valor,
                 Cartao = cartao,
             };
 
@@ -54,8 +45,8 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
 
             var resultValue = ((OkObjectResult)result).Value as PagamentoDtoCreateResult;
             Assert.NotNull(resultValue);
-            Assert.Equal(PagamentoDtoCreate.valor, resultValue.valor);
-            Assert.Equal("Aprovado", resultValue.estado);
+            Assert.Equal(PagamentoDtoCreate.Valor, resultValue.Valor);
+            Assert.Equal("Aprovado", resultValue.Estado);
         }
     }
 }

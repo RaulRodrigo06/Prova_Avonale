@@ -1,3 +1,4 @@
+using Api.Domain.Interfaces;
 using Api.Domain.Interfaces.Services.Products;
 using Api.Service.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +9,8 @@ namespace Api.CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesService(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IProductService, ProductService>();
+            serviceCollection.AddScoped<IProductService, ProductService>();
+            serviceCollection.AddScoped<IError, Error>();
         }
     }
 }

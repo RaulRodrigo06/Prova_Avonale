@@ -12,7 +12,7 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
 {
     public class Retorno_BadRequest
     {
-        private PagamentosController _controller;
+        private PagamentoController _controller;
 
         [Fact(DisplayName = "É Possível realizar o BadRequest")]
         public async Task E_Possivel_Realizar_Cotroller_BadRequest()
@@ -25,31 +25,25 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
                 numero = Faker.Name.FullName(),
                 cvv = Faker.Name.FullName(),
                 bandeira = Faker.Name.FullName(),
-                data_expiracao = DateTime.UtcNow,
+                data_expiracao = Faker.Name.FullName()
 
             };
 
-            serviceMock.Setup(m => m.Post(It.IsAny<PagamentoDtoCreate>())).ReturnsAsync(
-                new PagamentoDtoCreateResult
-                {
-                    valor = Valor,
-                    estado = "Aprovado",
-                }
-            );
-
-            _controller = new PagamentosController(serviceMock.Object);
+            _controller = new PagamentoController(serviceMock.Object);
             _controller.ModelState.AddModelError("Name", "É um campo obrigatório");
             Mock<IUrlHelper> url = new Mock<IUrlHelper>();
             url.Setup(x => x.Link(It.IsAny<string>(), It.IsAny<object>())).Returns("http://localhost:5000");
             _controller.Url = url.Object;
             var PagamentoDtoCreate = new PagamentoDtoCreate
             {
-                valor = Valor,
+                Valor = Valor,
                 Cartao = cartao,
             };
 
             var result = await _controller.Post(PagamentoDtoCreate);
-            Assert.True(result is BadRequestObjectResult);
+            ObjectResult resultValue = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(400, resultValue.StatusCode);
+            Assert.Equal(resultValue.Value, "Ocorreu um Erro Desconhecido");
 
 
         }

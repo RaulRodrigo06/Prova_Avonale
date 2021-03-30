@@ -24,7 +24,6 @@ namespace application
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureService.ConfigureDependenciesService(services);
-            ConfigureRepository.ConfigureDependenciesRepository(services);
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new DtoToProfile());
@@ -41,20 +40,13 @@ namespace application
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Curso de API com AspNetCore 3.1 - Na Prática",
-                    Description = "Arquitetura DDD",
-                    TermsOfService = new Uri("http://www.mfrinfo.com.br"),
+                    Title = "Api para processar pagamento",
                     Contact = new OpenApiContact
                     {
-                        Name = "Marcos Fabricio Rosa",
-                        Email = "mfr@mail.com",
+                        Name = "Raul Rodrigo Silva de Andrade",
+                        Email = "raul_rodrigo6@live.com",
                         Url = new Uri("http://www.mfrinfo.com.br")
                     },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Termo de Licença de Uso",
-                        Url = new Uri("http://www.mfrinfo.com.br")
-                    }
                 });
             });
         }

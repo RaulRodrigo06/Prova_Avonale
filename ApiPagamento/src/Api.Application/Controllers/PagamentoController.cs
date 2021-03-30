@@ -20,31 +20,22 @@ namespace Api.Application.Controllers
 
         [HttpPost]
         [Route("compras")]
-        public async Task<ActionResult> Post([FromBody] PagamentoDtoCreate Pagamento)
+        public async Task<ActionResult> Post([FromBody] PagamentoDtoCreate pagamento)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um Erro Desconhecido");
             }
-            if (Pagamento.Valor < 0)
+            if (pagamento.Valor < 0)
             {
                 return StatusCode((int)HttpStatusCode.PreconditionFailed, "Os valores informados não são válidos");
             }
             try
             {
-                var result = await _service.Post(Pagamento);
+                var result = _service.ProcessarPagamento(pagamento);
                 if (result != null)
                 {
-                    if (Pagamento.Valor > 100)
-                    {
-                        result.Estado = "Aprovado";
-                        return Ok(result);
-                    }
-                    else
-                    {
-                        result.Estado = "Reprovado";
-                        return Ok(result);
-                    }
+                    return Ok(result);
                 }
                 else
                 {

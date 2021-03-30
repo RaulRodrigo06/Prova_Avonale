@@ -8,6 +8,6 @@ namespace Api.Domain.Interfaces.Services.Pagamentos
 {
     public interface IPagamentoService
     {
-        Task<PagamentoDtoCreateResult> Post(PagamentoDtoCreate user);
+        PagamentoDtoCreateResult ProcessarPagamento(PagamentoDtoCreate Pagamento);
     }
 }
