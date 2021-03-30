@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Api.Domain.Dtos.Products;
 using Api.Domain.Entities;
@@ -15,7 +16,7 @@ namespace Api.Service.Services
 {
     public class ProductService : IProductService
     {
-        private const string _comprasUrl = "http://localhost:5000/api/Pagamentos/compras";
+        private const string _comprasUrl = "http://localhost:5000/api/Pagamentos/Compras";
         private static HttpClient _httpClient;
         private static HttpClient HttpClient => _httpClient ?? (_httpClient = new HttpClient());
         private IRepository<ProductEntity> _productrepository;
@@ -65,14 +66,17 @@ namespace Api.Service.Services
             var produtosend = new PagamentoExternoSend
             {
                 valor = prepararproduct,
-                CartaoSend = produto.Cartao
+                cartao = produto.Cartao
             };
-            var myContent = JsonConvert.SerializeObject(produtosend);
-            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-            var byteContent = new ByteArrayContent(buffer);
-            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var result = await HttpClient.PostAsync(_comprasUrl, byteContent);
-            var retorno = JsonConvert.DeserializeObject<RequestExternoDto>(result.Content.ToString());
+            var data = JsonConvert.SerializeObject(produtosend);
+            var content = new StringContent(data, Encoding.UTF8, "application/json");
+            var response = await HttpClient.PostAsync(_comprasUrl, content);
+            //var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            //var byteContent = new ByteArrayContent(buffer);
+            //byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            //var result = await HttpClient.PostAsync(_comprasUrl, byteContent);
+            //var retorno = JsonConvert.DeserializeObject<dynamic>(result.Content.ToString());
+            var retorno = JsonConvert.DeserializeObject<RequestExternoDto>(response.Content.ReadAsStringAsync().Result);
             return retorno;
         }
     }

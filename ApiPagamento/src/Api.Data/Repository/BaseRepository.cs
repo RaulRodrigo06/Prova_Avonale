@@ -21,9 +21,9 @@ namespace Api.Data.Repository
         {
             try
             {
-                _dataset.Add(item);
+                // _dataset.Add(item);
 
-                await _context.SaveChangesAsync();
+                // await _context.SaveChangesAsync();
 
             }
             catch (Exception ex)
