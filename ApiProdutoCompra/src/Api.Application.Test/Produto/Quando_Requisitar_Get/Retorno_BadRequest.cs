@@ -35,7 +35,9 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Get
             _controller.ModelState.AddModelError("Id", "Formato Inválido");
 
             var result = await _controller.Get(Guid.NewGuid());
-            Assert.True(result is BadRequestObjectResult);
+            ObjectResult resultValue = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(400, resultValue.StatusCode);
+            Assert.Equal("Ocorreu um erro Desconhecido", resultValue.Value);
 
         }
     }

@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using Api.Application.Controllers;
 using Api.Domain.Dtos.Products;
 using Api.Domain.Entities;
+using Api.Domain.Interfaces;
 using Api.Domain.Interfaces.Services.Products;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -19,6 +21,7 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
         public async Task E_Possivel_Realizar_Cotroller_Created()
         {
             var serviceMock = new Mock<IProductService>();
+            var errormock = new Mock<IError>();
             var Valor_Unitario = Faker.RandomNumber.Next(0, 10000);
             serviceMock.Setup(m => m.RequestExterno(It.IsAny<PagamentoDto>())).ReturnsAsync(
                 new RequestExternoDto
@@ -27,11 +30,6 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
                     estado = "Aprovado"
                 }
             );
-
-            _controller = new ProductsController(serviceMock.Object);
-            Mock<IUrlHelper> url = new Mock<IUrlHelper>();
-            url.Setup(x => x.Link(It.IsAny<string>(), It.IsAny<object>())).Returns("http://localhost:5000");
-            _controller.Url = url.Object;
             var cartao = new Cartao
             {
                 titular = Faker.Name.FullName(),
@@ -43,7 +41,7 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
             var pagamentodto = new PagamentoDto
             {
                 produto_id = Guid.NewGuid(),
-                qtde_comprada = Faker.RandomNumber.Next(0, 10),
+                qtde_comprada = Faker.RandomNumber.Next(1, 10),
                 Cartao = cartao
             };
 

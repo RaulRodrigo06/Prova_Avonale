@@ -42,7 +42,9 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
             };
 
             var result = await _controller.Post(ProductDtoCreate);
-            Assert.True(result is OkObjectResult);
+            ObjectResult resultValue = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(200, resultValue.StatusCode);
+            Assert.Equal("Produto Cadastrado", resultValue.Value);
         }
     }
 }

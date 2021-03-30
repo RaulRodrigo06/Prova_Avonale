@@ -21,7 +21,9 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Update
             _controller = new ProductsController(serviceMock.Object);
 
             var result = await _controller.Delete(Guid.NewGuid());
-            Assert.True(result is OkObjectResult);
+            ObjectResult resultValue = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(200, resultValue.StatusCode);
+            Assert.Equal("Produto Excluído com sucesso", resultValue.Value);
         }
     }
 }

@@ -45,7 +45,9 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_GetAll
             _controller = new ProductsController(serviceMock.Object);
             _controller.ModelState.AddModelError("Id", "Inválido Id");
             var result = await _controller.GetAll();
-            Assert.True(result is BadRequestObjectResult);
+            ObjectResult resultValue = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(400, resultValue.StatusCode);
+            Assert.Equal("Ocorreu um erro Desconhecido", resultValue.Value);
         }
     }
 }

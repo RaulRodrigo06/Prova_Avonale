@@ -45,8 +45,9 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
             };
 
             var result = await _controller.Post(ProductDtoCreate);
-            ObjectResult resultresponse = Assert.IsType<ObjectResult>(result);
-            Assert.Equal(412, resultresponse.StatusCode);
+            ObjectResult resultValue = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(412, resultValue.StatusCode);
+            Assert.Equal("Os valores informados não são válidos", resultValue.Value);
 
 
         }

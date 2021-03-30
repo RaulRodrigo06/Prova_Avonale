@@ -25,7 +25,7 @@ namespace Api.Application.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Ocorreu um erro Desconhecido");  // 400 Bad Request - Solicitação Inválida
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido"); // 400 Bad Request - Solicitação Inválida
             }
             try
             {
@@ -43,7 +43,7 @@ namespace Api.Application.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
             try
             {
@@ -60,7 +60,7 @@ namespace Api.Application.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Ocorreu um erro desconhecido");
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
 
             if (product.qntd_estoque < 0 || product.valor_unitario < 0)
@@ -72,17 +72,16 @@ namespace Api.Application.Controllers
                 var result = await _service.Post(product);
                 if (result != null)
                 {
-                    //return Created(new Uri(Url.Link("GetWithId", new { id = result.Id })), result);
-                    return Ok("Produto Cadastrado");
+                    return StatusCode((int)HttpStatusCode.OK, "Produto Cadastrado");
                 }
                 else
                 {
-                    return BadRequest("Ocorreu um erro desconhecido");
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
                 }
             }
             catch (ArgumentException)
             {
-                return BadRequest("Ocorreu um erro Desconhecido");
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
         }
 
@@ -93,18 +92,18 @@ namespace Api.Application.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
             try
             {
                 var result = await _service.Delete(id);
                 if (result == true)
                 {
-                    return Ok("Produto Excluído com sucesso");
+                    return StatusCode((int)HttpStatusCode.OK, "Produto Excluído com sucesso");
                 }
                 else
                 {
-                    return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro desconhecido");
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
                 }
 
             }
@@ -119,7 +118,7 @@ namespace Api.Application.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); //400 bad request - solicitação inválida
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
             if (product.qntd_estoque < 0 || product.valor_unitario < 0)
             {
@@ -134,7 +133,7 @@ namespace Api.Application.Controllers
                 }
                 else
                 {
-                    return BadRequest("Ocorreu um erro Desconhecido");
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
                 }
             }
             catch (ArgumentException)
