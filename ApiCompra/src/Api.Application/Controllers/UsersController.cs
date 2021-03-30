@@ -26,6 +26,10 @@ namespace Api.Application.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if (Pagamento.valor < 0)
+            {
+                return StatusCode((int)HttpStatusCode.PreconditionFailed, "Os valores informados não são válidos");
+            }
             try
             {
                 var result = await _service.Post(Pagamento);
