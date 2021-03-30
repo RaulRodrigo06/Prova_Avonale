@@ -28,21 +28,21 @@ namespace Api.Data.Test
                 {
                     nome = Faker.Name.FullName(),
                     valor_unitario = Faker.RandomNumber.Next(0, 10000),
-                    qntd_estoque = Faker.RandomNumber.Next(0, 10000)
+                    qtde_estoque = Faker.RandomNumber.Next(0, 10000)
                 };
 
                 var _registroCriado = await _repositorio.InsertAsync(_entity);
                 Assert.NotNull(_registroCriado);
                 Assert.Equal(_entity.nome, _registroCriado.nome);
                 Assert.Equal(_entity.valor_unitario, _registroCriado.valor_unitario);
-                Assert.Equal(_registroCriado.qntd_estoque, _registroCriado.qntd_estoque);
+                Assert.Equal(_registroCriado.qtde_estoque, _registroCriado.qtde_estoque);
 
                 _entity.nome = Faker.Name.First();
                 var _registroAtualizado = await _repositorio.UpdateAsync(_entity);
                 Assert.NotNull(_registroAtualizado);
                 Assert.Equal(_entity.nome, _registroAtualizado.nome);
                 Assert.Equal(_entity.valor_unitario, _registroAtualizado.valor_unitario);
-                Assert.Equal(_entity.qntd_estoque, _registroAtualizado.qntd_estoque);
+                Assert.Equal(_entity.qtde_estoque, _registroAtualizado.qtde_estoque);
 
                 var _registroExiste = await _repositorio.ExistAsync(_registroAtualizado.Id);
                 Assert.True(_registroExiste);
@@ -51,7 +51,7 @@ namespace Api.Data.Test
                 Assert.NotNull(_registroSelecionado);
                 Assert.Equal(_entity.nome, _registroAtualizado.nome);
                 Assert.Equal(_entity.valor_unitario, _registroAtualizado.valor_unitario);
-                Assert.Equal(_entity.qntd_estoque, _registroAtualizado.qntd_estoque);
+                Assert.Equal(_entity.qtde_estoque, _registroAtualizado.qtde_estoque);
 
                 var _registroTotais = await _repositorio.SelectAsync();
                 Assert.NotNull(_registroTotais);

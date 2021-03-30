@@ -18,6 +18,6 @@ namespace Api.Domain.Dtos.Products
 
         [Required(ErrorMessage = "Quantidade no estoque é campo obrigatório")]
         [StringLength(100, ErrorMessage = "Quantidade no estoque deve ter no máximo {1} caracteres")]
-        public int qntd_estoque { get; set; }
+        public int qtde_estoque { get; set; }
     }
 }

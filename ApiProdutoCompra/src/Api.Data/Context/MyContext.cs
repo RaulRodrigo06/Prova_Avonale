@@ -24,7 +24,7 @@ namespace Api.Data.Context
                    Id = Guid.NewGuid(),
                    nome = "Bolo Do Adm",
                    valor_unitario = 10,
-                   qntd_estoque = 1,
+                   qtde_estoque = 1,
                    DataUltCompra = null,
                    ValorUltVenda = null
                }

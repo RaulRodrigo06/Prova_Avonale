@@ -19,7 +19,7 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Get
             var serviceMock = new Mock<IProductService>();
             var Nome = Faker.Name.FullName();
             var Valor_Unitario = Faker.RandomNumber.Next(0, 10000);
-            var Qntd_Estoque = Faker.RandomNumber.Next(0, 10000);
+            var qtde_Estoque = Faker.RandomNumber.Next(0, 10000);
 
             serviceMock.Setup(m => m.Get(It.IsAny<Guid>())).ReturnsAsync(
                 new ProductDto
@@ -27,7 +27,7 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Get
                     Id = Guid.NewGuid(),
                     nome = Nome,
                     valor_unitario = Valor_Unitario,
-                    qntd_estoque = Qntd_Estoque
+                    qtde_estoque = qtde_Estoque
                 }
             );
 
@@ -40,7 +40,7 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Get
             Assert.NotNull(resultValue);
             Assert.Equal(Nome, resultValue.nome);
             Assert.Equal(Valor_Unitario, resultValue.valor_unitario);
-            Assert.Equal(Qntd_Estoque, resultValue.qntd_estoque);
+            Assert.Equal(qtde_Estoque, resultValue.qtde_estoque);
 
         }
     }

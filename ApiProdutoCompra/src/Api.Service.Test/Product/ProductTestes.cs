@@ -8,10 +8,10 @@ namespace Api.Service.Test.Product
     {
         public static string NomeProduto { get; set; }
         public static decimal valor_unitarioProduto { get; set; }
-        public static int qntd_estoqueProduto { get; set; }
+        public static int qtde_estoqueProduto { get; set; }
         public static string NomeProdutoAlterado { get; set; }
         public static decimal valor_unitarioAlterado { get; set; }
-        public static int qntd_estoqueAlterado { get; set; }
+        public static int qtde_estoqueAlterado { get; set; }
         public static Guid idUsuario { get; set; }
 
         public List<ProductDto> listaProductDto = new List<ProductDto>();
@@ -26,7 +26,7 @@ namespace Api.Service.Test.Product
             idUsuario = Guid.NewGuid();
             NomeProdutoAlterado = Faker.Name.FullName();
             valor_unitarioAlterado = Faker.RandomNumber.Next(0, 100000);
-            qntd_estoqueAlterado = Faker.RandomNumber.Next(0, 1000000);
+            qtde_estoqueAlterado = Faker.RandomNumber.Next(0, 1000000);
 
             for (int i = 0; i < 10; i++)
             {
@@ -35,7 +35,7 @@ namespace Api.Service.Test.Product
                     Id = Guid.NewGuid(),
                     nome = Faker.Name.FullName(),
                     valor_unitario = Faker.RandomNumber.Next(0, 100000),
-                    qntd_estoque = Faker.RandomNumber.Next(0, 100000)
+                    qtde_estoque = Faker.RandomNumber.Next(0, 100000)
                 };
                 listaProductDto.Add(dto);
             }
@@ -45,7 +45,7 @@ namespace Api.Service.Test.Product
                 Id = idUsuario,
                 nome = NomeProduto,
                 valor_unitario = valor_unitarioProduto,
-                qntd_estoque = qntd_estoqueProduto,
+                qtde_estoque = qtde_estoqueProduto,
                 DataUltCompra = DateTime.UtcNow,
                 ValorUltVenda = Faker.RandomNumber.Next(0, 100000)
             };
@@ -54,7 +54,7 @@ namespace Api.Service.Test.Product
             {
                 nome = NomeProduto,
                 valor_unitario = valor_unitarioProduto,
-                qntd_estoque = qntd_estoqueProduto
+                qtde_estoque = qtde_estoqueProduto
             };
 
             ProductDtoCreateResult = new ProductDtoCreateResult()
@@ -62,7 +62,7 @@ namespace Api.Service.Test.Product
                 Id = idUsuario,
                 nome = NomeProduto,
                 valor_unitario = valor_unitarioProduto,
-                qntd_estoque = qntd_estoqueProduto,
+                qtde_estoque = qtde_estoqueProduto,
             };
 
             ProductDtoUpdate = new ProductDtoUpdate()
@@ -70,7 +70,7 @@ namespace Api.Service.Test.Product
                 Id = idUsuario,
                 nome = NomeProdutoAlterado,
                 valor_unitario = valor_unitarioAlterado,
-                qntd_estoque = qntd_estoqueAlterado
+                qtde_estoque = qtde_estoqueAlterado
             };
 
             ProductDtoUpdateResult = new ProductDtoUpdateResult()
@@ -78,7 +78,7 @@ namespace Api.Service.Test.Product
                 Id = idUsuario,
                 nome = NomeProdutoAlterado,
                 valor_unitario = valor_unitarioAlterado,
-                qntd_estoque = qntd_estoqueAlterado
+                qtde_estoque = qtde_estoqueAlterado
             };
         }
     }

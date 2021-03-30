@@ -9,7 +9,7 @@ namespace Api.Domain.Entities
         [Required]
         public decimal valor_unitario { get; set; }
         [Required]
-        public int qntd_estoque { get; set; }
+        public int qtde_estoque { get; set; }
 
     }
 }

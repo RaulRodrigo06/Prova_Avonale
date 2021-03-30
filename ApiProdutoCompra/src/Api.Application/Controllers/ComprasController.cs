@@ -23,9 +23,31 @@ namespace Api.Application.Controllers
             _error = error;
         }
 
+        // PUT api/compras
+        /// <summary>
+        /// Atualiza um produto no banco de dados.
+        /// </summary>
+        /// <remarks>
+        /// Exemplo:
         ///
-
+        ///     POST /compras
+        ///     {
+        ///       "produto_id": 1,
+        ///       "qtde_comprada": 1,
+        ///        "cartao": {
+        ///        "titular": "John Doe",
+        ///        "numero": "4111111111111111",
+        ///        "data_expiracao": "12/2018",
+        ///        "bandeira": "VISA",
+        ///         "cvv": "123",
+        ///         }
+        ///       }
         ///
+        /// </remarks>
+        /// <returns>Retorna o produto</returns>
+        /// <response code="200">Retorna o produto</response>
+        /// <response code="400">Ocorreu Um erro Desconhecido</response> 
+        /// <response code="412">Os valores informados não são válidos</response> 
         [HttpPost]
         public async Task<ActionResult> Compras([FromBody] PagamentoDto pagamento)
         {

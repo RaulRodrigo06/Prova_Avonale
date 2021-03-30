@@ -14,6 +14,6 @@ namespace Api.Domain.Dtos.Products
 
         [Required(ErrorMessage = "Quantidade no estoque é campo obrigatório")]
         //[Range(0, int.MaxValue, ErrorMessage = "Apenas números positivos")]
-        public int qntd_estoque { get; set; }
+        public int qtde_estoque { get; set; }
     }
 }

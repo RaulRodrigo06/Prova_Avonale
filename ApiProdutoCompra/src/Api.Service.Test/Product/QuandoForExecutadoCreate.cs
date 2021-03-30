@@ -22,7 +22,7 @@ namespace Api.Service.Test.Product
             Assert.NotNull(result);
             Assert.Equal(NomeProduto, result.nome);
             Assert.Equal(valor_unitarioProduto, result.valor_unitario);
-            Assert.Equal(qntd_estoqueProduto, result.qntd_estoque);
+            Assert.Equal(qtde_estoqueProduto, result.qtde_estoque);
         }
     }
 }

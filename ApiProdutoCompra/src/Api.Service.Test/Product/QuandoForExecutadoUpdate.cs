@@ -21,7 +21,7 @@ namespace Api.Service.Test.Product
             Assert.NotNull(result);
             Assert.Equal(NomeProduto, result.nome);
             Assert.Equal(valor_unitarioProduto, result.valor_unitario);
-            Assert.Equal(qntd_estoqueProduto, result.qntd_estoque); ;
+            Assert.Equal(qtde_estoqueProduto, result.qtde_estoque); ;
 
             _serviceMock = new Mock<IProductService>();
             _serviceMock.Setup(m => m.Put(ProductDtoUpdate)).ReturnsAsync(ProductDtoUpdateResult);
@@ -31,7 +31,7 @@ namespace Api.Service.Test.Product
             Assert.NotNull(resultUpdate);
             Assert.Equal(NomeProdutoAlterado, resultUpdate.nome);
             Assert.Equal(valor_unitarioAlterado, resultUpdate.valor_unitario);
-            Assert.Equal(qntd_estoqueAlterado, resultUpdate.qntd_estoque);
+            Assert.Equal(qtde_estoqueAlterado, resultUpdate.qtde_estoque);
 
         }
     }

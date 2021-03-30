@@ -19,14 +19,14 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
             var serviceMock = new Mock<IProductService>();
             var Nome = Faker.Name.FullName();
             var Valor_Unitario = Faker.RandomNumber.Next(0, 10000);
-            var Qntd_Estoque = Faker.RandomNumber.Next(0, 10000);
+            var qtde_Estoque = Faker.RandomNumber.Next(0, 10000);
             serviceMock.Setup(m => m.Post(It.IsAny<ProductDtoCreate>())).ReturnsAsync(
                 new ProductDtoCreateResult
                 {
                     Id = Guid.NewGuid(),
                     nome = Nome,
                     valor_unitario = Valor_Unitario,
-                    qntd_estoque = Qntd_Estoque
+                    qtde_estoque = qtde_Estoque
                 }
             );
 
@@ -38,7 +38,7 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
             {
                 nome = Nome,
                 valor_unitario = Valor_Unitario,
-                qntd_estoque = Qntd_Estoque,
+                qtde_estoque = qtde_Estoque,
             };
 
             var result = await _controller.Post(ProductDtoCreate);

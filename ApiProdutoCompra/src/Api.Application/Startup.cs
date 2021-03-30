@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Reflection;
 using Api.CrossCutting.DependencyInjection;
 using Api.CrossCutting.Mappings;
 using AutoMapper;
@@ -40,13 +42,16 @@ namespace application
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Prova Avonale",
+                    Title = "Prova NaPista",
                     Contact = new OpenApiContact
                     {
                         Name = "Raul Rodrigo Silva de Andrade",
                         Email = "raul_rodrigo6@live.com.com",
                     }
                 });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -61,7 +66,7 @@ namespace application
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Curso de API com AspNetCore 3.1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Prova NaPista V1");
                 c.RoutePrefix = string.Empty;
             });
 

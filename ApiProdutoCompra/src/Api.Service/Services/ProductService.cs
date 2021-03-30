@@ -100,7 +100,7 @@ namespace Api.Service.Services
                 });
             }
             var getproduct = await Get(pagamento.produto_id);
-            if (getproduct.qntd_estoque < pagamento.qtde_comprada)
+            if (getproduct.qtde_estoque < pagamento.qtde_comprada)
             {
                 _error.ErrorMessages.Add(new ErrorMessage
                 {
@@ -122,7 +122,7 @@ namespace Api.Service.Services
             {
                 getproduct.DataUltCompra = DateTime.UtcNow;
                 getproduct.ValorUltVenda = retorno.valor;
-                getproduct.qntd_estoque = getproduct.qntd_estoque - pagamento.qtde_comprada;
+                getproduct.qtde_estoque = getproduct.qtde_estoque - pagamento.qtde_comprada;
                 var model = _mapper.Map<ProductModel>(getproduct);
                 var entity = _mapper.Map<ProductEntity>(model);
                 await _productrepository.UpdateAsync(entity);

@@ -17,7 +17,7 @@ namespace Api.Data.Mapping
                    .HasMaxLength(60);
 
             builder.Property(u => u.valor_unitario);
-            builder.Property(u => u.qntd_estoque);
+            builder.Property(u => u.qtde_estoque);
         }
     }
 }
