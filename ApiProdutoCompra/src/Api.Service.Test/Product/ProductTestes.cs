@@ -46,8 +46,8 @@ namespace Api.Service.Test.Product
                 nome = NomeProduto,
                 valor_unitario = valor_unitarioProduto,
                 qntd_estoque = qntd_estoqueProduto,
-                dataultimavenda = DateTime.UtcNow,
-                valorultimavenda = Faker.RandomNumber.Next(0, 100000)
+                DataUltCompra = DateTime.UtcNow,
+                ValorUltVenda = Faker.RandomNumber.Next(0, 100000)
             };
 
             ProductDtoCreate = new ProductDtoCreate()
