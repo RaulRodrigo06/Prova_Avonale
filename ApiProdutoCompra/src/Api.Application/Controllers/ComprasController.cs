@@ -38,11 +38,11 @@ namespace Api.Application.Controllers
             string[] date = pagamento.Cartao.data_expiracao.Split('/');
             if (int.Parse(date[1]) < DateTime.Now.Year)
             {
-                return StatusCode((int)HttpStatusCode.PreconditionFailed, "Cartão com data expirada");
+                return StatusCode((int)HttpStatusCode.PreconditionFailed, "Data do Cartão Expirada");
             }
             if (int.Parse(date[0]) < DateTime.Now.Month && int.Parse(date[1]) == DateTime.Now.Month)
             {
-                return StatusCode((int)HttpStatusCode.PreconditionFailed, "Cartão com data expirada");
+                return StatusCode((int)HttpStatusCode.PreconditionFailed, "Data do Cartão Expirada");
             }
             var retorno = await _service.RequestExterno(pagamento);
             if (retorno == null)
