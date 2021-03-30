@@ -11,6 +11,7 @@ namespace Api.CrossCutting.Mappings
             CreateMap<ProductModel, ProductDto>().ReverseMap();
             CreateMap<ProductModel, ProductDtoCreate>().ReverseMap();
             CreateMap<ProductModel, ProductDtoUpdate>().ReverseMap();
+            CreateMap<PagamentoModel, PagamentoDto>().ReverseMap();
         }
     }
 }

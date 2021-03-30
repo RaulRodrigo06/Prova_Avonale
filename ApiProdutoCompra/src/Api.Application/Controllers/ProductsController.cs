@@ -1,7 +1,9 @@
 using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Api.Domain.Dtos.Products;
+using Api.Domain.Entities;
 using Api.Domain.Interfaces.Services.Products;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +14,10 @@ namespace Api.Application.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private const string paisesUrl = "http://localhost:8080/api/pagamento/compras";
+
+        private static HttpClient _httpClient;
+        private static HttpClient HttpClient => _httpClient ?? (_httpClient = new HttpClient());
         public IProductService _service { get; set; }
         public ProductsController(IProductService service)
         {
@@ -86,8 +92,6 @@ namespace Api.Application.Controllers
 
 
 
-
-
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
@@ -142,6 +146,21 @@ namespace Api.Application.Controllers
 
                 return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
+        }
+        [HttpPost]
+        [Route("api/Compras")]
+        public async Task<ActionResult> Compras([FromBody] PagamentoDto pagamento)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Ocorreu um erro desconhecido");
+            }
+            var retorno = await _service.RequestExterno(pagamento);
+            if (retorno == null)
+            {
+                return BadRequest("Ocorreu um erro desconhecido");
+            }
+            return Ok(retorno);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Api.Application.Controllers
         }
 
         [HttpPost]
+        [Route("Compras")]
         public async Task<ActionResult> Post([FromBody] PagamentoDtoCreate Pagamento)
         {
             if (!ModelState.IsValid)

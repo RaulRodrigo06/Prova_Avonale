@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Api.Application.Controllers;
 using Api.Domain.Dtos.Products;
 using Api.Domain.Interfaces.Services.Products;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -44,6 +45,9 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
             };
 
             var result = await _controller.Post(ProductDtoCreate);
+            ObjectResult resultresponse = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(412, resultresponse.StatusCode);
+
 
         }
     }

@@ -13,6 +13,8 @@ namespace Api.CrossCutting.Mappings
             CreateMap<ProductDtoCreateResult, ProductEntity>().ReverseMap();
 
             CreateMap<ProductDtoUpdateResult, ProductEntity>().ReverseMap();
+
+            CreateMap<RequestExternoDto, RequestExternoEntity>().ReverseMap();
         }
     }
 }

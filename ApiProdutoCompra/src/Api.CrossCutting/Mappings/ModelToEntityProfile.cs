@@ -9,6 +9,7 @@ namespace Api.CrossCutting.Mappings
         public ModelToEntityProfile()
         {
             CreateMap<ProductEntity, ProductModel>().ReverseMap();
+            CreateMap<PagamentoEntity, PagamentoModel>().ReverseMap();
             //.ForMember(x=>x.valor_unitario,y=>y.MapFrom(z=>z.valor_unitario));
         }
     }
