@@ -10,5 +10,6 @@ namespace Api.Domain.Entities
         public decimal valor_unitario { get; set; }
         [Required]
         public int qntd_estoque { get; set; }
+
     }
 }

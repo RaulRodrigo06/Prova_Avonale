@@ -100,6 +100,14 @@ namespace Api.Service.Services
                 });
             }
             var getproduct = await Get(pagamento.produto_id);
+            if (getproduct.qntd_estoque < pagamento.qtde_comprada)
+            {
+                _error.ErrorMessages.Add(new ErrorMessage
+                {
+                    StatusCode = HttpStatusCode.PreconditionFailed,
+                    Message = "Quantidade Insuficiente no estoque"
+                });
+            }
             var prepararpagamento = pagamento.qtde_comprada * getproduct.valor_unitario;
             var pagamentosend = new PagamentoExternoSend
             {
@@ -110,6 +118,15 @@ namespace Api.Service.Services
             var content = new StringContent(data, Encoding.UTF8, "application/json");
             var response = await HttpClient.PostAsync(_comprasUrl, content);
             var retorno = JsonConvert.DeserializeObject<RequestExternoDto>(response.Content.ReadAsStringAsync().Result);
+            if (retorno.estado == "Aprovado")
+            {
+                getproduct.DataUltCompra = DateTime.UtcNow;
+                getproduct.ValorUltVenda = retorno.valor;
+                getproduct.qntd_estoque = getproduct.qntd_estoque - pagamento.qtde_comprada;
+                var model = _mapper.Map<ProductModel>(getproduct);
+                var entity = _mapper.Map<ProductEntity>(model);
+                await _productrepository.UpdateAsync(entity);
+            }
             return retorno;
         }
     }
