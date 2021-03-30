@@ -16,7 +16,7 @@ namespace Api.Service.Services
 {
     public class ProductService : IProductService
     {
-        private const string _comprasUrl = "http://localhost:5000/api/Pagamentos/Compras";
+        private const string _comprasUrl = "http://localhost:5000/api/pagamento/compras";
         private static HttpClient _httpClient;
         private static HttpClient HttpClient => _httpClient ?? (_httpClient = new HttpClient());
         private IRepository<ProductEntity> _productrepository;
@@ -71,11 +71,6 @@ namespace Api.Service.Services
             var data = JsonConvert.SerializeObject(produtosend);
             var content = new StringContent(data, Encoding.UTF8, "application/json");
             var response = await HttpClient.PostAsync(_comprasUrl, content);
-            //var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-            //var byteContent = new ByteArrayContent(buffer);
-            //byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            //var result = await HttpClient.PostAsync(_comprasUrl, byteContent);
-            //var retorno = JsonConvert.DeserializeObject<dynamic>(result.Content.ToString());
             var retorno = JsonConvert.DeserializeObject<RequestExternoDto>(response.Content.ReadAsStringAsync().Result);
             return retorno;
         }

@@ -4,7 +4,7 @@ namespace Api.Domain.Dtos
 {
     public class PagamentoDtoCreate
     {
-        public decimal valor { get; set; }
+        public decimal Valor { get; set; }
         public cartao Cartao { get; set; }
     }
 }

@@ -4,7 +4,7 @@ namespace Api.Domain.Entities
 {
     public class PagamentoEntity
     {
-        public decimal valor { get; set; }
+        public decimal Valor { get; set; }
         [NotMapped]
         public cartao Cartao { get; set; }
     }

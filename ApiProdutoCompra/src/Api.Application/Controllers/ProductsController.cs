@@ -14,10 +14,6 @@ namespace Api.Application.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private const string paisesUrl = "http://localhost:8080/api/pagamento/compras";
-
-        private static HttpClient _httpClient;
-        private static HttpClient HttpClient => _httpClient ?? (_httpClient = new HttpClient());
         public IProductService _service { get; set; }
         public ProductsController(IProductService service)
         {
@@ -146,21 +142,6 @@ namespace Api.Application.Controllers
 
                 return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
-        }
-        [HttpPost]
-        [Route("api/Compras")]
-        public async Task<ActionResult> Compras([FromBody] PagamentoDto pagamento)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Ocorreu um erro desconhecido");
-            }
-            var retorno = await _service.RequestExterno(pagamento);
-            if (retorno == null)
-            {
-                return BadRequest("Ocorreu um erro desconhecido");
-            }
-            return Ok(retorno);
         }
     }
 }

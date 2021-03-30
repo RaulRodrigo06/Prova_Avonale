@@ -10,7 +10,7 @@ namespace Api.Data.Mapping
         {
             builder.ToTable("Pagamento");
 
-            builder.HasKey(u => u.valor);
+            builder.HasKey(u => u.Valor);
             //builder.Property(u => u.Cartao);
         }
     }
