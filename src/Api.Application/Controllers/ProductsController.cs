@@ -2,7 +2,6 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Api.Domain.Dtos.Products;
-using Api.Domain.Entities;
 using Api.Domain.Interfaces.Services.Products;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,15 +23,15 @@ namespace Api.Application.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);  // 400 Bad Request - Solicitação Inválida
+                return BadRequest("Ocorreu um erro Desconhecido");  // 400 Bad Request - Solicitação Inválida
             }
             try
             {
                 return Ok(await _service.GetAll());
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
         }
 
@@ -48,9 +47,9 @@ namespace Api.Application.Controllers
             {
                 return Ok(await _service.Get(id));
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
         }
 
@@ -59,7 +58,12 @@ namespace Api.Application.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro desconhecido");
+            }
+
+            if (product.qntd_estoque < 0 || product.valor_unitario < 0)
+            {
+                return StatusCode((int)HttpStatusCode.PreconditionFailed, "Os valores informados não são válidos");
             }
             try
             {
@@ -71,14 +75,16 @@ namespace Api.Application.Controllers
                 }
                 else
                 {
-                    return BadRequest();
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro desconhecido");
                 }
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
         }
+
+
 
 
 
@@ -91,7 +97,16 @@ namespace Api.Application.Controllers
             }
             try
             {
-                return Ok(await _service.Delete(id));
+                var result = await _service.Delete(id);
+                if (result == true)
+                {
+                    return Ok("Produto Excluído com sucesso");
+                }
+                else
+                {
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro desconhecido");
+                }
+
             }
             catch (ArgumentException e)
             {
@@ -100,29 +115,32 @@ namespace Api.Application.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Put([FromBody] ProductDtoUpdate user)
+        public async Task<ActionResult> Put([FromBody] ProductDtoUpdate product)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState); //400 bad request - solicitação inválida
             }
-
+            if (product.qntd_estoque < 0 || product.valor_unitario < 0)
+            {
+                return StatusCode((int)HttpStatusCode.PreconditionFailed, "Os valores informados não são válidos");
+            }
             try
             {
-                var result = await _service.Put(user);
+                var result = await _service.Put(product);
                 if (result != null)
                 {
                     return Ok(result);
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest("Ocorreu um erro Desconhecido");
                 }
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
 
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
             }
         }
     }
