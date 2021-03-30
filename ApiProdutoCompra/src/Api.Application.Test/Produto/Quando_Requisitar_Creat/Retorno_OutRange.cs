@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Api.Application.Controllers;
 using Api.Domain.Dtos.Products;
@@ -13,8 +14,8 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
     {
         private ProductsController _controller;
 
-        [Fact(DisplayName = "É Possível realizar o BadRequest")]
-        public async Task E_Possivel_Realizar_Cotroller_BadRequest()
+        [Fact(DisplayName = "É Possível realizar o OutRange")]
+        public async Task E_Possivel_Realizar_Cotroller_OutRange()
         {
             var serviceMock = new Mock<IProductService>();
             var Nome = Faker.Name.FullName();
@@ -43,9 +44,6 @@ namespace Api.Application.Test.Usuario.Quando_Requisitar_Creat
             };
 
             var result = await _controller.Post(ProductDtoCreate);
-            //Assert.NotInRange(result.valor_unitario, 0, 10000);
-            //Assert.NotInRange(resultValue.qntd_estoque, 0, 10000);
-
 
         }
     }

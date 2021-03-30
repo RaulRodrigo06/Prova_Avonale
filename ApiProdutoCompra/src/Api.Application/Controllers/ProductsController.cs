@@ -70,7 +70,7 @@ namespace Api.Application.Controllers
                 var result = await _service.Post(product);
                 if (result != null)
                 {
-                    //return Ok(new Uri(Url.Link("GetWithId", new { id = result.Id })));
+                    //return Created(new Uri(Url.Link("GetWithId", new { id = result.Id })), result);
                     return Ok("Produto Cadastrado");
                 }
                 else
