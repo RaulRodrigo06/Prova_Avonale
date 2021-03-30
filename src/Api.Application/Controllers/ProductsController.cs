@@ -58,7 +58,7 @@ namespace Api.Application.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro desconhecido");
+                return BadRequest("Ocorreu um erro desconhecido");
             }
 
             if (product.qntd_estoque < 0 || product.valor_unitario < 0)
@@ -70,17 +70,17 @@ namespace Api.Application.Controllers
                 var result = await _service.Post(product);
                 if (result != null)
                 {
-                    //return Created(new Uri(Url.Link("GetWithId", new { id = result.Id })), result);
+                    //return Ok(new Uri(Url.Link("GetWithId", new { id = result.Id })));
                     return Ok("Produto Cadastrado");
                 }
                 else
                 {
-                    return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro desconhecido");
+                    return BadRequest("Ocorreu um erro desconhecido");
                 }
             }
             catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.BadRequest, "Ocorreu um erro Desconhecido");
+                return BadRequest("Ocorreu um erro Desconhecido");
             }
         }
 
