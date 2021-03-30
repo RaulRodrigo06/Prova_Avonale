@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -59,16 +60,16 @@ namespace Api.Service.Services
             var result = await _productrepository.UpdateAsync(entity);
             return _mapper.Map<ProductDtoUpdateResult>(result);
         }
-        public async Task<RequestExternoDto> RequestExterno(PagamentoDto produto)
+        public async Task<RequestExternoDto> RequestExterno(PagamentoDto pagamento)
         {
-            var getproduct = await Get(produto.produto_id);
-            var prepararproduct = produto.qtde_comprada * getproduct.valor_unitario;
-            var produtosend = new PagamentoExternoSend
+            var getproduct = await Get(pagamento.produto_id);
+            var prepararpagamento = pagamento.qtde_comprada * getproduct.valor_unitario;
+            var pagamentosend = new PagamentoExternoSend
             {
-                valor = prepararproduct,
-                cartao = produto.Cartao
+                valor = prepararpagamento,
+                cartao = pagamento.Cartao
             };
-            var data = JsonConvert.SerializeObject(produtosend);
+            var data = JsonConvert.SerializeObject(pagamentosend);
             var content = new StringContent(data, Encoding.UTF8, "application/json");
             var response = await HttpClient.PostAsync(_comprasUrl, content);
             var retorno = JsonConvert.DeserializeObject<RequestExternoDto>(response.Content.ReadAsStringAsync().Result);
