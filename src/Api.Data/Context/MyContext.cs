@@ -1,3 +1,4 @@
+using System;
 using Api.Data.Mapping;
 using Api.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,18 @@ namespace Api.Data.Context
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ProductEntity>(new ProductMap().Configure);
+
+            modelBuilder.Entity<ProductEntity>().HasData(
+               new ProductEntity
+               {
+                   Id = Guid.NewGuid(),
+                   nome = "Bolo Do Adm",
+                   valor_unitario = 10,
+                   qntd_estoque = 1,
+                   DataUltCompra = null,
+                   ValorUltVenda = null
+               }
+           );
         }
 
     }
